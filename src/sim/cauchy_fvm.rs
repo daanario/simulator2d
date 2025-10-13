@@ -10,8 +10,8 @@ use std::collections::HashMap;
 
 use plotters::prelude::*;
 use plotters::prelude::full_palette::PINK; 
-use plotters_gtk4::Paintable;
-use plotters_gtk4::PaintableBackend;
+//use plotters_gtk4::Paintable;
+//use plotters_gtk4::PaintableBackend;
 
 use lazy_static::lazy_static;
 use plotters_arrows::ThinArrow;
@@ -384,7 +384,7 @@ impl CauchyFVM {
             }
         }
     }
-
+/*
     pub fn display_on_paintable(&self, paintable: &Paintable) -> () {
 
         let backend = PaintableBackend::new(paintable);
@@ -481,6 +481,7 @@ impl CauchyFVM {
 
         root.present().unwrap();
     }
+*/
 }
 
 lazy_static! {

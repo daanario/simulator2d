@@ -1,9 +1,9 @@
 mod mesh;
 mod cv;
-mod plotting;
+//mod plotting;
 mod sim;  
-mod window;
-mod examples;
+//mod window;
+//mod examples;
 
 //use bevy::prelude::*;
 
@@ -43,6 +43,13 @@ use sim::cauchy_fvm::CauchyFVM;
 use std::f32::consts::PI;
 
 fn main() -> () {
+
+    unsafe {
+       unsafe extern "C" {
+            fn cblas_ddot(n: i32, x: *const f64, incx: i32, y: *const f64, incy: i32) -> f64;
+        }
+        println!("BLAS is linked! {:?}", cblas_ddot as *const ());
+    }
 
     let tmesh = mesh::TriangleMesh::new_beam(6.0, 2.0, (12, 4));
     

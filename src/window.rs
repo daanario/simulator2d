@@ -1,12 +1,12 @@
 use std::cell::RefCell;
 use std::rc::Rc;
-use gtk4 as gtk;
-use gtk::prelude::*;
-use gtk::{glib, Application, ApplicationWindow};
-use plotters_gtk4::Paintable;
+//use gtk4 as gtk;
+//use gtk::prelude::*;
+//use gtk::{glib, Application, ApplicationWindow};
+//use plotters_gtk4::Paintable;
 use crate::sim::cauchy_fvm::CauchyFVM;
 use crate::mesh::TriangleMesh;
-use crate::plotting;
+//use crate::plotting;
 use ndarray::array;
 use std::sync::{Arc, Mutex};
 
