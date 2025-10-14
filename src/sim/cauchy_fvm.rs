@@ -8,13 +8,13 @@ use std::time::Instant;
 use rayon::prelude::*;
 use std::collections::HashMap;
 
-use plotters::prelude::*;
-use plotters::prelude::full_palette::PINK; 
+//use plotters::prelude::*;
+//use plotters::prelude::full_palette::PINK; 
 //use plotters_gtk4::Paintable;
 //use plotters_gtk4::PaintableBackend;
 
 use lazy_static::lazy_static;
-use plotters_arrows::ThinArrow;
+//use plotters_arrows::ThinArrow;
 
 #[derive(Clone)]
 struct Material {

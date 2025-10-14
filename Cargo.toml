@@ -7,7 +7,7 @@ build = "build.rs"
 [dependencies]
 rayon = "1.10.0"
 lazy_static = "1.5.0"
-bevy = { version = "0.16.0", features = ["dynamic_linking"] }
+bevy = { version = "0.17.0", features = ["dynamic_linking"] }
 
 # For x86_64 Linux
 [target.'cfg(target_os = "linux")'.dependencies]
