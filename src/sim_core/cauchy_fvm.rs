@@ -1,6 +1,6 @@
 use ndarray::prelude::*;
-use crate::mesh::*;
-use crate::cv::*;
+use crate::sim_core::mesh::*;
+use crate::sim_core::cv::*;
 use ndarray_linalg::Inverse;
 use ndarray::stack;
 use ndarray_linalg::Trace;
@@ -8,13 +8,7 @@ use std::time::Instant;
 use rayon::prelude::*;
 use std::collections::HashMap;
 
-//use plotters::prelude::*;
-//use plotters::prelude::full_palette::PINK; 
-//use plotters_gtk4::Paintable;
-//use plotters_gtk4::PaintableBackend;
-
 use lazy_static::lazy_static;
-//use plotters_arrows::ThinArrow;
 
 #[derive(Clone)]
 struct Material {
@@ -199,8 +193,7 @@ impl CauchyFVM {
             .map(|node_idx| {
                 let cv = &self.control_volumes[node_idx];
 
-                let mut traction_force = Array1::<f64>::zeros(2); 
-                let mut penalty_force = Array1::<f64>::zeros(2); 
+                let mut traction_force = Array1::<f64>::zeros(2);  
                 if self.traction_boundary.contains(&node_idx) {
                     let force_array = &self.traction_force_vector * cv.area;
                     traction_force.assign(&force_array);  

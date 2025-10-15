@@ -1,11 +1,7 @@
 use ndarray::prelude::*;
 use ndarray::{Array1, Array2};
-//use ndarray_linalg;
-use crate::mesh::TriangleMesh;
+use crate::sim_core::mesh::TriangleMesh;
 use ndarray_linalg::Norm;
-
-
-
 
 pub struct MedianCentroidControlVolume {
     pub vertex: usize,

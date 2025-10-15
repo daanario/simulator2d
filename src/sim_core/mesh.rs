@@ -1,9 +1,6 @@
 use ndarray::prelude::*;
 use ndarray::{Array1, Array2};
-//use plotters::prelude::*;
 use std::f64::consts::PI;
-use std::collections::HashMap;
-//use delaunator::{triangulate, Point};
 
 #[derive(Clone)]
 pub struct TriangleMesh {
@@ -56,7 +53,7 @@ impl TriangleMesh {
         vertices.push(array![0.0, 0.0]); // start with center vertex at (0,0)
         
         for circle in 0..res {
-            let angle_step = (3.14 * 2.0) / ((circle as f64 + 1.0) * 6.0);
+            let angle_step = (PI * 2.0) / ((circle as f64 + 1.0) * 6.0);
             for point in 0..((circle+1)*6) {
                 vertices.push(array![
                     (angle_step * (point as f64)).cos() * d * ((circle as f64) + 1.0),
@@ -74,16 +71,16 @@ impl TriangleMesh {
             let c = circle as isize;
             let mut other = 0;
             for point in 0..((circle+1)*6) {
-                if (point % (circle+1) != 0) {
+                if point % (circle+1) != 0 {
                     // Create 2 triangles
-                    let mut tri = vec![
+                    let tri = vec![
                         Self::get_point_index(c-1, other+1),
                         Self::get_point_index(c-1, other),
                         Self::get_point_index(c, point)
                     ];
                     Self::make_ccw(&vertices, tri.clone()); 
                     triangles.push(array![tri[0], tri[1], tri[2]]);
-                    let mut tri = vec![
+                    let tri = vec![
                         Self::get_point_index(c, point),
                         Self::get_point_index(c, point+1),
                         Self::get_point_index(c-1, other+1)
@@ -93,7 +90,7 @@ impl TriangleMesh {
                     other += 1;
                 } else {
                     // Create 1 inverse triangle
-                    let mut tri = vec![
+                    let tri = vec![
                         Self::get_point_index(c, point),
                         Self::get_point_index(c, point+1),
                         Self::get_point_index(c-1, other)
@@ -208,7 +205,7 @@ impl TriangleMesh {
         //println!("circle {}", circle);
         let c = circle as usize;
         let x = point % ((c + 1) * 6);
-        return (3 * c * (c + 1) + x + 1);
+        return 3 * c * (c + 1) + x + 1;
     }
 
 }
