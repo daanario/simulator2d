@@ -7,14 +7,15 @@ use bevy::{
 use bevy::camera::Camera2d;
 use bevy::mesh::{Mesh, PrimitiveTopology, Indices, VertexAttributeValues};
 use bevy::asset::RenderAssetUsages;
-use bevy::sprite_render::{Wireframe2dPlugin};
+//use bevy::sprite_render::{Wireframe2dPlugin};
+use bevy::sprite_render::{Wireframe2dPlugin, Wireframe2d, Wireframe2dColor};
 use sim_core::cauchy_fvm::CauchyFVM;
 use sim_core::mesh;
 
 pub fn beam(
     mut commands: Commands,
     mut meshes: ResMut<Assets<Mesh>>,
-    mut materials: ResMut<Assets<ColorMaterial>>,
+    mut _materials: ResMut<Assets<ColorMaterial>>, 
     beam_mesh: Res<TriangleMeshResource>,
 ) {
     // create Bevy Mesh
@@ -44,24 +45,25 @@ pub fn beam(
     bevy_beam.insert_indices(Indices::U32(indices));
     
     let beam_ptr = meshes.add(bevy_beam);
-    
-    // set beam mesh color
-    let color = Color::srgb(1., 0., 0.); 
+
+    // choose wireframe color
+    let wire_color = Wireframe2dColor { color: Color::srgb(1.0, 1.0, 1.0) };
 
     commands.spawn((
-            Mesh2d(beam_ptr),
-            MeshMaterial2d(materials.add(color)),
-            ));
+        Mesh2d(beam_ptr),
+        Wireframe2d,
+        wire_color,
+    ));
 
     commands.spawn((
         Camera2d,
         Projection::from(OrthographicProjection {
-            scale: 0.02,
+            scale: 0.009,
             ..OrthographicProjection::default_2d()
-            },
-        )
+        }),
     ));
 }
+
 
 #[derive(Resource)]
 pub struct TriangleMeshResource(pub mesh::TriangleMesh);
