@@ -11,4 +11,4 @@ cargo build --release
 
 First compilation may take a while, but subsequent builds should be faster due to incremental compilation.
 
-Screenshot: [example.png]
+Screenshot: ![demo](example.png)
