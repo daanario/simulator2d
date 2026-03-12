@@ -59,7 +59,7 @@ impl CauchyFVM {
         
         // set time and delta time
         let t = 0.0;
-        let dt = dt;
+        //let dt = dt;
         
         // set material parameters
         let material = MATERIALS.get(material_name).unwrap().clone();
@@ -72,7 +72,7 @@ impl CauchyFVM {
         
         let traction_force_vector = array![0.0, -10e4];
         
-        // set of nodes on the traction boundary
+        // set of nodes on the traction boundary (hardcoded)
         let traction_boundary: Vec<_> = (0..material_coords.nrows())
             .filter_map(|node_idx| {
                 if material_coords[[node_idx, 0]] > 2.99 {
@@ -83,7 +83,7 @@ impl CauchyFVM {
             })
             .collect();
         
-        // set of nodes on the immovable boundary
+        // set of nodes on the immovable boundary (hardcoded)
         let immovable_boundary: Vec<_> = (0..material_coords.nrows())
             .filter_map(|node_idx| {
                 if material_coords[[node_idx, 0]] < -2.99 {
@@ -362,7 +362,7 @@ impl CauchyFVM {
         }
     }
 
-    pub fn benchmark(&mut self, iters: usize) -> () {
+    pub fn benchmark(&mut self, iters: usize) {
         // simple benchmarking function for checking how many updates per second we can get
         let now = Instant::now();
         let mut last_elapsed: u128 = 0;
@@ -377,104 +377,6 @@ impl CauchyFVM {
             }
         }
     }
-/*
-    pub fn display_on_paintable(&self, paintable: &Paintable) -> () {
-
-        let backend = PaintableBackend::new(paintable);
-        let root = backend.into_drawing_area();
-        root.fill(&BLACK).unwrap();
-
-        let mut chart = ChartBuilder::on(&root)
-            .caption(format!("Beam mesh, t={time:.*}s", 3, time=self.t), ("sans-serif", 12, &WHITE))
-            .build_cartesian_2d(-40.0..60.0, -40.0..40.0)
-            .unwrap();
-         
-        let mesh = &self.sim_mesh;
-        let material_coords = &self.material_coords;
-
-        for tri in mesh.triangles.outer_iter() {
-            let triangle = vec![
-                (mesh.vertices[[tri[0], 0]], mesh.vertices[[tri[0], 1]]),
-                (mesh.vertices[[tri[1], 0]], mesh.vertices[[tri[1], 1]]),
-                (mesh.vertices[[tri[2], 0]], mesh.vertices[[tri[2], 1]]),
-                (mesh.vertices[[tri[0], 0]], mesh.vertices[[tri[0], 1]]), // close loop
-            ];
-
-            chart
-                .draw_series(std::iter::once(PathElement::new(triangle, &WHITE)))
-                .unwrap();
-            }
-        
-        // draw immovable boundary surface as a different color
-        let mut boundary_left_vec = Vec::<(f64, f64)>::new();
-        for node_idx in 0..mesh.vertices.nrows() {
-            if self.immovable_boundary.contains(&node_idx) && material_coords[[node_idx, 0]] < -2.99 {
-                boundary_left_vec.push((mesh.vertices[[node_idx, 0]], mesh.vertices[[node_idx, 1]]));
-            }
-        }
-        
-        let mut boundary_right_vec = Vec::<(f64, f64)>::new();
-        for node_idx in 0..mesh.vertices.nrows() {
-            if self.immovable_boundary.contains(&node_idx) && material_coords[[node_idx, 0]] > 2.99 {
-                boundary_right_vec.push((mesh.vertices[[node_idx, 0]], mesh.vertices[[node_idx, 1]]));
-            }
-        }
-
-        chart 
-            .draw_series(std::iter::once(PathElement::new(boundary_left_vec, &CYAN)))
-            .unwrap();  
-        chart 
-            .draw_series(std::iter::once(PathElement::new(boundary_right_vec, &CYAN)))
-            .unwrap();  
-
-        // draw traction surface as a different color
-        let mut traction_vec = Vec::<(f64, f64)>::new();
-        for node_idx in 0..mesh.vertices.nrows() {
-            if self.traction_boundary.contains(&node_idx) {
-                traction_vec.push((mesh.vertices[[node_idx, 0]], mesh.vertices[[node_idx, 1]]));
-            }
-        }
-
-        chart 
-            .draw_series(std::iter::once(PathElement::new(traction_vec, &RED)))
-            .unwrap();  
-        
-        // draw velocity vectors       
-        chart 
-            .draw_series((0..self.num_nodes)
-                .into_iter()
-                .map(|node_idx| {
-                    let arrow_size = 0.15;
-                    let x = mesh.vertices[[node_idx, 0]];
-                    let y = mesh.vertices[[node_idx, 1]];
-                    let dx = arrow_size * self.velocities[[node_idx, 0]];
-                    let dy = arrow_size * self.velocities[[node_idx, 1]];
-                    ThinArrow::new((x, y), (x + dx, y + dy), &GREEN)
-                }))
-                .unwrap();
-        
-        // draw force vectors        
-        chart 
-            .draw_series(self.traction_boundary
-                .clone()
-                .into_iter()
-                .map(|node_idx| {
-                    let arrow_size = 1e-5;
-                    let x = mesh.vertices[[node_idx, 0]];
-                    let y = mesh.vertices[[node_idx, 1]];
-                    let dx = arrow_size * self.traction_force_vector[0];
-                    let dy = arrow_size * self.traction_force_vector[1];
-                    ThinArrow::new((x, y), (x + dx, y + dy), &RED)
-                }))
-                .unwrap();
-        
-        // draw floor
-        let x_values = vec![-6.0, 6.0];
-        chart.draw_series(LineSeries::new(x_values.into_iter().map(|x| (x, -3.5)), &WHITE)).unwrap();
-
-        root.present().unwrap();
-    }
-*/
 }
 
 lazy_static! {
@@ -483,4 +385,3 @@ lazy_static! {
             ("rubber", Material {young_modulus: 0.01e9, nu: 0.48, rho: 1050.0}),
         ]);
 }
-

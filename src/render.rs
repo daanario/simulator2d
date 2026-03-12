@@ -2,13 +2,11 @@ use crate::sim_core;
 
 use bevy::{ 
     prelude::*,
-    window::WindowResolution,
 };
 use bevy::camera::Camera2d;
 use bevy::mesh::{Mesh, PrimitiveTopology, Indices, VertexAttributeValues};
 use bevy::asset::RenderAssetUsages;
-//use bevy::sprite_render::{Wireframe2dPlugin};
-use bevy::sprite_render::{Wireframe2dPlugin, Wireframe2d, Wireframe2dColor};
+use bevy::sprite_render::{Wireframe2d, Wireframe2dColor};
 use sim_core::cauchy_fvm::CauchyFVM;
 use sim_core::mesh;
 
